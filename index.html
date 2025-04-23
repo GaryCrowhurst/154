@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light Vehicle Chassis Components - Revision Quiz</title>
+    <style>
+        :root {
+            --primary: #1a73e8;
+            --primary-dark: #155cb3;
+            --secondary: #4caf50;
+            --secondary-dark: #388e3c;
+            --danger: #f44336;
+            --success: #4caf50;
+            --dark: #333;
+            --light: #f5f5f5;
+            --gray: #9e9e9e;
+            --light-gray: #e0e0e0;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+            background-color: var(--primary);
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: var(--primary);
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        .home-screen, .topic-selection, .question-screen, .results-screen {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-success {
+            background-color: var(--success);
+        }
+        
+        .btn-success:hover {
+            background-color: var(--secondary-dark);
+        }
+        
+        .btn-danger {
+            background-color: var(--danger);
+        }
+        
+        .topic-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .topic-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 2px solid var(--light-gray);
+        }
+        
+        .topic-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+        }
+        
+        .options-container {
+            margin-top: 20px;
+        }
+        
+        .option {
+            display: block;
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: var(--light);
+            border: 2px solid var(--light-gray);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .option:hover {
+            background-color: #e3f2fd;
+            border-color: var(--primary);
+        }
+        
+        .option.selected {
+            background-color: #e3f2fd;
+            border-color: var(--primary);
+        }
+        
+        .option.correct {
+            background-color: rgba(76, 175, 80, 0.2);
+            border-color: var(--secondary);
+        }
+        
+        .option.incorrect {
+            background-color: rgba(244, 67, 54, 0.2);
+            border-color: var(--danger);
+        }
+        
+        .explanation {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e3f2fd;
+            border-left: 4px solid var(--primary);
+            border-radius: 4px;
+        }
+        
+        .progress-container {
+            width: 100%;
+            height: 10px;
+            background-color: var(--light-gray);
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background-color: var(--primary);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        
+        .score-display {
+            text-align: center;
+            font-size: 24px;
+            margin: 20px 0;
+        }
+        
+        .result-details {
+            margin-top: 20px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @media (max-width: 600px) {
+            .topic-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn {
+                width: 100%;
+                margin: 5px 0;
+            }
+            
+            .navigation {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Light Vehicle Chassis Components</h1>
+            <p>Revision Quiz for Level 2 Motor Vehicle</p>
+        </header>
+
+        <!-- Home Screen -->
+        <div id="home-screen" class="home-screen">
+            <h2>Welcome to your Revision Quiz</h2>
+            <p>This quiz will help you prepare for your Level 2 assessment on Removing and Replacing Light Vehicle Chassis Units and Components.</p>
+            <p>The questions cover steering systems, suspension systems, braking systems, wheels and tyres, safety procedures, and general knowledge about chassis components.</p>
+            <p>You can choose to focus on a specific topic or test yourself with a random mix of questions.</p>
+            <button id="start-btn" class="btn">Start Quiz</button>
+        </div>
+
+        <!-- Topic Selection Screen -->
+        <div id="topic-selection" class="topic-selection hidden">
+            <h2>Select a Topic</h2>
+            <div class="topic-grid" id="topic-grid">
+                <!-- Topics will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Question Screen -->
+        <div id="question-screen" class="question-screen hidden">
+            <div class="progress-container">
+                <div id="progress-bar" class="progress-bar" style="width: 0%"></div>
+            </div>
+            <h2 id="question-text">Question text goes here</h2>
+            <div id="options-container" class="options-container">
+                <!-- Options will be generated by JavaScript -->
+            </div>
+            <div id="explanation" class="explanation hidden">
+                Explanation text goes here
+            </div>
+            <div class="navigation">
+                <button id="prev-btn" class="btn hidden">Previous</button>
+                <button id="submit-btn" class="btn">Submit Answer</button>
+                <button id="next-btn" class="btn hidden">Next Question</button>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="results-screen hidden">
+            <h2>Quiz Results</h2>
+            <div id="score-display" class="score-display">
+                You scored: <span id="score">0</span>/<span id="total">0</span>
+            </div>
+            <div id="result-details" class="result-details">
+                <!-- Result details will be generated by JavaScript -->
+            </div>
+            <button id="restart-btn" class="btn">Restart Quiz</button>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const homeScreen = document.getElementById('home-screen');
+        const topicSelection = document.getElementById('topic-selection');
+        const questionScreen = document.getElementById('question-screen');
+        const resultsScreen = document.getElementById('results-screen');
+        
+        const startBtn = document.getElementById('start-btn');
+        const topicGrid = document.getElementById('topic-grid');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const explanation = document.getElementById('explanation');
+        const prevBtn = document.getElementById('prev-btn');
+        const submitBtn = document.getElementById('submit-btn');
+        const nextBtn = document.getElementById('next-btn');
+        const progressBar = document.getElementById('progress-bar');
+        const scoreElement = document.getElementById('score');
+        const totalElement = document.getElementById('total');
+        const resultDetails = document.getElementById('result-details');
+        const restartBtn = document.getElementById('restart-btn');
+        
+        // Quiz State
+        let currentView = 'home';
+        let currentTopic = null;
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedAnswer = null;
+        let answerSubmitted = false;
+        let quizCompleted = false;
+        let quizQuestions = [];
+        let userAnswers = [];
+        
+        // Topics
+        const topics = [
+            { id: 'steering', name: 'Steering Systems' },
+            { id: 'suspension', name: 'Suspension Systems' },
+            { id: 'braking', name: 'Braking Systems' },
+            { id: 'wheels', name: 'Wheels and Tyres' },
+            { id: 'safety', name: 'Working Safely' },
+            { id: 'general', name: 'General Procedures' },
+            { id: 'random', name: 'Random Mix (All Topics)' }
+        ];
+        
+        // Questions Database
+        const questionsData = {
+            steering: [
+                {
+                    question: "Which of the following is NOT a component of steering geometry?",
+                    options: [
+                        "Castor angle",
+                        "Camber angle",
+                        "Cylinder offset",
+                        "Kingpin inclination"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Steering geometry includes castor angle, camber angle, kingpin/swivel pin inclination, wheel/rim offset, and wheel alignment (tracking), but not 'cylinder offset' which is not a standard steering geometry term."
+                },
+                {
+                    question: "What is the Ackerman principle related to?",
+                    options: [
+                        "Braking efficiency",
+                        "Suspension rebound",
+                        "Steering during turns",
+                        "Tyre pressure monitoring"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "The Ackerman principle relates to steering geometry during turns, where the inner wheel turns at a greater angle than the outer wheel to follow the correct turning radius."
+                },
+                {
+                    question: "Which component is NOT typically found in hydraulic power steering systems?",
+                    options: [
+                        "Drive belts and pumps",
+                        "Hydraulic valve",
+                        "Electronic control unit (ECU)",
+                        "Power cylinders"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "While modern power steering systems may incorporate ECUs, a traditional hydraulic power steering system consists of piston and power cylinders, drive belts and pumps, hydraulic valves, and hydraulic fluid, but not necessarily an ECU."
+                },
+                {
+                    question: "What steering defect is most likely causing wear on the outer edge of the tyre?",
+                    options: [
+                        "Too much toe-in",
+                        "Excessive negative camber",
+                        "Excessive positive camber",
+                        "Incorrect castor angle"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Excessive positive camber (when the top of the wheel tilts outward) causes wear on the outer edge of the tyre."
+                },
+                {
+                    question: "Which term describes a vehicle's tendency to turn more sharply than the driver intends?",
+                    options: [
+                        "Understeer",
+                        "Oversteer",
+                        "Neutral steer",
+                        "Self-aligning torque"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Oversteer is when a vehicle turns more sharply than intended, often causing the rear end to slide outward during cornering."
+                },
+                {
+                    question: "What is 'toe out on turns' referring to?",
+                    options: [
+                        "The tendency of tyres to wear on the outer edges",
+                        "A steering system fault causing excessive play",
+                        "The outer wheel turning at a lesser angle than the inner wheel",
+                        "The inner wheel turning at a greater angle than the outer wheel"
+                    ],
+                    correctAnswer: 3,
+                    explanation: "Toe out on turns refers to the geometry where the inner wheel turns at a greater angle than the outer wheel when cornering, allowing each wheel to follow its correct turning radius."
+                },
+                {
+                    question: "What is 'understeer' in relation to vehicle handling?",
+                    options: [
+                        "When the vehicle turns less than expected for a given steering input",
+                        "When the steering wheel feels too light",
+                        "When the steering system doesn't return to center properly",
+                        "When the steering wheel requires excessive force"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "Understeer occurs when a vehicle turns less than expected for a given steering input, typically causing the front end to push toward the outside of the turn."
+                },
+                {
+                    question: "What would cause flats on the tread of a tyre?",
+                    options: [
+                        "Excessive camber",
+                        "Incorrect castor angle",
+                        "Braking issues or wheel lock-up",
+                        "Incorrect toe settings"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Flats on the tread of tyres are typically caused by braking issues or wheel lock-up during braking, which causes the tyre to skid rather than roll."
+                },
+                {
+                    question: "Which of these is NOT an advantage of power-assisted steering?",
+                    options: [
+                        "Reduced driver effort",
+                        "Better fuel economy",
+                        "Improved handling at high speeds",
+                        "Easier parking maneuvers"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Traditional hydraulic power steering systems typically reduce fuel economy slightly due to the continuous operation of the hydraulic pump, which draws power from the engine."
+                },
+                {
+                    question: "What is 'self-aligning torque' in steering systems?",
+                    options: [
+                        "The force that returns the steering to the straight-ahead position",
+                        "A fault in the steering system causing wheel vibration",
+                        "The mechanical advantage provided by the steering rack",
+                        "The electronic adjustment of steering feel"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "Self-aligning torque is the natural tendency of a vehicle's steering system to return to the straight-ahead position after completing a turn, primarily due to the castor angle."
+                },
+                {
+                    question: "Which component in a steering system is most responsible for converting rotary motion to linear motion?",
+                    options: [
+                        "Steering wheel",
+                        "Power steering pump",
+                        "Rack and pinion mechanism",
+                        "Tie rod ends"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "The rack and pinion mechanism converts the rotary motion of the steering wheel and steering column into the linear motion needed to turn the wheels."
+                },
+                {
+                    question: "What type of hydraulic valve is commonly used in power steering systems?",
+                    options: [
+                        "Pressure relief valve",
+                        "Rotary valve",
+                        "Check valve",
+                        "Needle valve"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Rotary valves are commonly used in power steering systems to control the flow of hydraulic fluid based on steering input."
+                }
+            ],
+            suspension: [
+                {
+                    question: "Which of the following is NOT a type of independent suspension?",
+                    options: [
+                        "MacPherson strut",
+                        "Leaf spring",
+                        "Double wishbone",
+                        "Trailing arm"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Leaf springs are typically used in non-independent suspension systems. MacPherson strut, double wishbone, and trailing arm can all be used in independent suspension designs."
+                },
+                {
+                    question: "What suspension component is designed to limit body roll during cornering?",
+                    options: [
+                        "Shock absorber",
+                        "Coil spring",
+                        "Anti-roll bar",
+                        "Trailing arm"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "The anti-roll bar (also called stabilizer bar) connects the left and right suspension components to reduce body roll during cornering."
+                },
+                {
+                    question: "Which term describes the downward movement of a vehicle's front during braking?",
+                    options: [
+                        "Roll",
+                        "Pitch",
+                        "Dive",
+                        "Bounce"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Dive is the term used to describe the downward movement of a vehicle's front during braking."
+                },
+                {
+                    question: "What is the primary function of a damper in a suspension system?",
+                    options: [
+                        "To support the vehicle's weight",
+                        "To control the rate of suspension movement",
+                        "To prevent wheel hop during acceleration",
+                        "To maintain wheel alignment"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Dampers (shock absorbers) control the rate of suspension movement by converting kinetic energy into heat energy, preventing excessive bouncing."
+                },
+                {
+                    question: "Which suspension symptom might indicate worn shock absorbers?",
+                    options: [
+                        "Vehicle pulls to one side",
+                        "Excessive tyre wear in the center",
+                        "Continued bouncing after hitting a bump",
+                        "Steering wheel vibration"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Worn shock absorbers typically allow the vehicle to continue bouncing after hitting a bump instead of quickly settling."
+                },
+                {
+                    question: "What is the main advantage of independent rear suspension over a rigid axle?",
+                    options: [
+                        "Lower cost",
+                        "Better load carrying capacity",
+                        "Improved ride comfort and handling",
+                        "Simpler maintenance"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Independent rear suspension (IRS) offers improved ride comfort and handling because each wheel can move independently, allowing one wheel to absorb bumps without affecting the other wheel."
+                },
+                {
+                    question: "What is a torsion bar used for in suspension systems?",
+                    options: [
+                        "To connect the suspension to the chassis",
+                        "To act as a spring element",
+                        "To prevent excessive suspension travel",
+                        "To reduce steering feedback"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "A torsion bar is used as a spring element in some suspension systems. It works by twisting along its axis to provide resistance to suspension movement."
+                },
+                {
+                    question: "Which term describes the upward movement of a vehicle's rear during heavy acceleration?",
+                    options: [
+                        "Squat",
+                        "Lift",
+                        "Pitch",
+                        "Float"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "Squat describes the tendency of a vehicle's rear to compress (squat down) during heavy acceleration, while the front end rises."
+                },
+                {
+                    question: "Which of these suspension designs is most commonly used in the front of modern front-wheel-drive vehicles?",
+                    options: [
+                        "Double wishbone",
+                        "MacPherson strut",
+                        "Leaf spring",
+                        "Swing axle"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "The MacPherson strut is the most commonly used front suspension design in modern front-wheel-drive vehicles due to its compact design and cost-effectiveness."
+                },
+                {
+                    question: "What is 'suspension compliance' referring to?",
+                    options: [
+                        "The ability of the suspension to absorb bumps",
+                        "The legal requirements for suspension systems",
+                        "The rate at which suspension components wear",
+                        "The suspension's adherence to manufacturer specifications"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "Suspension compliance refers to the ability of the suspension system to absorb bumps and impacts, allowing controlled movement to improve ride comfort and handling."
+                },
+                {
+                    question: "What might cause uneven ride height in a vehicle?",
+                    options: [
+                        "Worn ball joints",
+                        "Broken or worn springs",
+                        "Incorrect tyre pressure",
+                        "All of the above"
+                    ],
+                    correctAnswer: 3,
+                    explanation: "Uneven ride height can be caused by worn ball joints, broken or worn springs, and incorrect tyre pressure, among other factors."
+                },
+                {
+                    question: "In a hydro-pneumatic suspension system, what provides the spring effect?",
+                    options: [
+                        "Hydraulic fluid",
+                        "Compressed gas",
+                        "Metal springs",
+                        "Rubber bushings"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "In a hydro-pneumatic suspension system, compressed gas (typically nitrogen) provides the spring effect, while hydraulic fluid is used to transmit force and control movement."
+                }
+            ],
+            braking: [
+                {
+                    question: "In a disc brake system, what component houses the pistons that press the brake pads against the disc?",
+                    options: [
+                        "Wheel cylinder",
+                        "Master cylinder",
+                        "Caliper",
+                        "Drum"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "The caliper houses the pistons that press the brake pads against the brake disc when hydraulic pressure is applied."
+                },
+                {
+                    question: "What is the purpose of a brake servo?",
+                    options: [
+                        "To distribute brake force between front and rear",
+                        "To multiply the force applied to the brake pedal",
+                        "To prevent wheel lock-up during braking",
+                        "To automatically adjust brake clearance"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "A brake servo (or brake booster) multiplies the force applied to the brake pedal, reducing the effort required from the driver."
+                },
+                {
+                    question: "Which component in a drum brake system automatically adjusts the clearance between the shoes and drum?",
+                    options: [
+                        "Wheel cylinder",
+                        "Self-adjusting mechanism",
+                        "Backing plate",
+                        "Return spring"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "The self-adjusting mechanism automatically adjusts the clearance between the brake shoes and drum as the linings wear."
+                },
+                {
+                    question: "What is the main disadvantage of brake fluid that is described as 'hygroscopic'?",
+                    options: [
+                        "It damages paint surfaces",
+                        "It absorbs moisture from the air",
+                        "It has a low boiling point",
+                        "It becomes more viscous over time"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Hygroscopic brake fluid absorbs moisture from the air, which can lead to brake system corrosion and reduced braking efficiency as water has a lower boiling point than brake fluid."
+                },
+                {
+                    question: "Which braking system component prevents wheel lock-up during emergency braking?",
+                    options: [
+                        "Load sensing valve",
+                        "Brake proportioning valve",
+                        "Anti-lock Braking System (ABS)",
+                        "Brake servo"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "The Anti-lock Braking System (ABS) prevents wheel lock-up during emergency braking by modulating brake pressure to individual wheels."
+                },
+                {
+                    question: "What is the purpose of a load sensing valve in a braking system?",
+                    options: [
+                        "To increase braking force when the vehicle is heavily loaded",
+                        "To reduce rear brake pressure when the vehicle is lightly loaded",
+                        "To boost the brake pedal force under emergency braking",
+                        "To prevent overheating of the brake components"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "A load sensing valve (or brake proportioning valve) reduces hydraulic pressure to the rear brakes when the vehicle is lightly loaded to prevent rear wheel lock-up, and increases pressure when the vehicle is heavily loaded."
+                },
+                {
+                    question: "Which of these is NOT a component of a typical ABS system?",
+                    options: [
+                        "Wheel speed sensors",
+                        "Hydraulic modulator",
+                        "Electronic control unit",
+                        "Brake fade compensator"
+                    ],
+                    correctAnswer: 3,
+                    explanation: "A 'brake fade compensator' is not a standard component of an ABS system. ABS typically consists of wheel speed sensors, a hydraulic modulator, and an electronic control unit."
+                },
+                {
+                    question: "What is 'brake fade'?",
+                    options: [
+                        "The gradual loss of braking effectiveness due to heat buildup",
+                        "The failure of brake lights to illuminate when braking",
+                        "The tendency of brakes to squeal when applied",
+                        "The wear pattern on brake discs"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "Brake fade is the temporary reduction or loss of braking power due to excessive heat buildup in the braking system, typically during prolonged or repeated heavy braking."
+                },
+                {
+                    question: "What would cause a vehicle to pull to one side during braking?",
+                    options: [
+                        "Worn master cylinder",
+                        "Uneven brake pad wear or contamination",
+                        "Worn brake servo",
+                        "Low brake fluid level"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "A vehicle pulling to one side during braking is typically caused by uneven brake pad wear or contamination, stuck caliper, or a brake hydraulic problem affecting one side of the vehicle."
+                },
+                {
+                    question: "In a dual-line hydraulic brake system, which wheels are typically served by separate hydraulic circuits?",
+                    options: [
+                        "Left side and right side wheels",
+                        "Front and rear wheels",
+                        "Diagonal wheels (front-left/rear-right and front-right/rear-left)",
+                        "All wheels have separate circuits"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Modern dual-line brake systems typically use a diagonal split (front-left/rear-right and front-right/rear-left) to ensure that if one circuit fails, the vehicle still has braking capability on both sides."
+                },
+                {
+                    question: "What is the self-servo action in drum brakes?",
+                    options: [
+                        "The automatic adjustment of brake shoes as they wear",
+                        "The tendency of the brake shoes to be pulled into the drum, increasing braking force",
+                        "The power assistance provided by the brake servo",
+                        "The electronic control of braking pressure"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Self-servo action in drum brakes is the tendency of the leading shoe to be pulled into the drum as it contacts the rotating surface, which increases the braking force beyond what is applied hydraulically."
+                },
+                {
+                    question: "What type of brake fluid is commonly specified for most modern vehicles?",
+                    options: [
+                        "DOT 3",
+                        "DOT 4",
+                        "DOT 5",
+                        "DOT 5.1"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "DOT 4 brake fluid is commonly specified for most modern vehicles due to its higher boiling point and better performance characteristics compared to DOT 3."
+                }
+            ],
+            wheels: [
+                {
+                    question: "What does the 'speed rating' on a tyre indicate?",
+                    options: [
+                        "The minimum speed the vehicle should maintain",
+                        "The maximum speed the tyre is designed to handle",
+                        "The recommended inflation pressure at highway speeds",
+                        "The tread wear expectancy in miles"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "The speed rating indicates the maximum speed the tyre is designed to handle safely when properly inflated and not carrying excessive load."
+                },
+                {
+                    question: "Which type of tyre construction has plies running at roughly 90 degrees to the direction of travel?",
+                    options: [
+                        "Radial",
+                        "Bias belted",
+                        "Cross ply",
+                        "Run flat"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Cross ply (or bias ply) tyres have plies running at roughly 45-degree angles to each other, crossing at approximately 90 degrees to the direction of travel."
+                },
+                {
+                    question: "What does a tyre's load rating indicate?",
+                    options: [
+                        "The maximum weight the tyre can support",
+                        "The recommended tyre pressure",
+                        "The tyre's resistance to punctures",
+                        "The number of plies in the tyre"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "The load rating indicates the maximum weight the tyre can support when properly inflated."
+                },
+                {
+                    question: "Which of these would NOT cause a wheel vibration?",
+                    options: [
+                        "Unbalanced wheel",
+                        "Bent wheel rim",
+                        "Worn tyre tread",
+                        "Incorrect tyre pressure"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "While worn tyre tread can cause various problems, it typically doesn't cause wheel vibration. Unbalanced wheels, bent rims, and sometimes incorrect tyre pressure can cause vibrations."
+                },
+                {
+                    question: "What type of wheel bearing arrangement is most commonly used in modern vehicles?",
+                    options: [
+                        "Plain bearings",
+                        "Needle bearings",
+                        "Ball bearings",
+                        "Taper roller bearings"
+                    ],
+                    correctAnswer: 3,
+                    explanation: "Taper roller bearings are most commonly used in modern vehicle wheel bearing arrangements due to their ability to handle both radial and axial loads."
+                },
+                {
+                    question: "What does 'unsprung weight' refer to in relation to wheels?",
+                    options: [
+                        "The weight of the vehicle not supported by the suspension",
+                        "The weight difference between front and rear wheels",
+                        "The weight capacity of the wheel bearings",
+                        "The weight reduction achieved by using alloy wheels"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "Unsprung weight refers to the weight of components not supported by the suspension system, including wheels, tyres, brakes, and some suspension components. Lower unsprung weight generally improves handling and ride quality."
+                },
+                {
+                    question: "What is the advantage of radial ply tyres over cross ply tyres?",
+                    options: [
+                        "Lower cost",
+                        "Better puncture resistance",
+                        "Better road holding and lower rolling resistance",
+                        "Longer tread life"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Radial ply tyres typically offer better road holding, lower rolling resistance (improving fuel economy), and often a more comfortable ride compared to cross ply tyres."
+                },
+                {
+                    question: "What information would a tyre marking of '225/45R17 91W' provide?",
+                    options: [
+                        "Tyre width, aspect ratio, construction type, rim diameter, load index, and speed rating",
+                        "Tyre manufacturer, size code, and production date",
+                        "Tread pattern, wear rating, and maximum speed",
+                        "Maximum load, pressure rating, and tyre type"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "The marking '225/45R17 91W' indicates: 225mm width, 45% aspect ratio, Radial construction, 17-inch rim diameter, 91 load index, and W speed rating."
+                },
+                {
+                    question: "What is 'dynamic balancing' of a wheel?",
+                    options: [
+                        "Testing wheel balance while driving",
+                        "Balancing a wheel while it's spinning",
+                        "Adjusting tyre pressure to match road conditions",
+                        "Rotating tyres to ensure even wear"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Dynamic balancing involves testing and correcting the balance of a wheel while it's spinning, ensuring even weight distribution around the entire wheel assembly to prevent vibration at speed."
+                },
+                {
+                    question: "What is the purpose of tread wear indicators on tyres?",
+                    options: [
+                        "To show manufacturing dates",
+                        "To indicate when tyres have worn to the legal minimum tread depth",
+                        "To mark reinforced areas of the tyre",
+                        "To help with tyre alignment"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Tread wear indicators are raised bars in the tyre grooves that become flush with the tread surface when the tyre has worn down to the legal minimum tread depth, indicating when the tyre needs replacement."
+                },
+                {
+                    question: "What can cause a tyre to overheat?",
+                    options: [
+                        "Overinflation",
+                        "Underinflation",
+                        "Excessive speed",
+                        "Both B and C"
+                    ],
+                    correctAnswer: 3,
+                    explanation: "Tyres can overheat due to underinflation (causing excessive flexing of the sidewall) and/or excessive speed (generating more friction than the tyre can dissipate)."
+                },
+                {
+                    question: "What does a 'well-based wheel rim' refer to?",
+                    options: [
+                        "A rim with proper weight distribution",
+                        "A rim designed to hold tubeless tyres",
+                        "A rim for high-performance vehicles",
+                        "A rim made from high-quality materials"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "A well-based wheel rim has a specific design with a 'well' or depression around the circumference that allows tubeless tyres to be mounted and creates an airtight seal between the tyre and rim."
+                }
+            ],
+            safety: [
+                {
+                    question: "When working on hybrid/electric vehicles, which of the following is most important?",
+                    options: [
+                        "Using specialized diagnostic equipment",
+                        "Following isolation procedures before working on high-voltage systems",
+                        "Keeping the battery fully charged",
+                        "Using petroleum-based cleaners"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Following proper isolation procedures before working on high-voltage systems is critical for safety when working on hybrid/electric vehicles."
+                },
+                {
+                    question: "Which PPE should be worn when handling brake fluid?",
+                    options: [
+                        "Hard hat and steel-toed boots",
+                        "Respiratory mask and face shield",
+                        "Nitrile gloves and eye protection",
+                        "Hearing protection and overalls"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Nitrile gloves and eye protection should be worn when handling brake fluid to protect against skin irritation and eye damage."
+                },
+                {
+                    question: "What is the correct way to dispose of waste brake fluid?",
+                    options: [
+                        "Pour it down a drain with running water",
+                        "Mix it with water and dispose in regular trash",
+                        "Take it to a designated hazardous waste facility",
+                        "Allow it to evaporate in an open container"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Brake fluid must be disposed of at a designated hazardous waste facility as it is environmentally harmful and cannot be disposed of in regular waste or drains."
+                },
+                {
+                    question: "What should you do before removing brake components that may contain asbestos?",
+                    options: [
+                        "Spray the components with water to prevent dust",
+                        "Use compressed air to blow away any dust",
+                        "Sandblast the components to clean them",
+                        "Simply work quickly to minimize exposure"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "Brake components that may contain asbestos should be dampened with water to prevent dust becoming airborne, as asbestos dust is extremely harmful when inhaled."
+                },
+                {
+                    question: "What is the primary safety concern when working under a raised vehicle?",
+                    options: [
+                        "Protecting the vehicle's paintwork",
+                        "Ensuring adequate lighting",
+                        "Using proper support stands in addition to a jack",
+                        "Wearing a face mask"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Never rely solely on a jack to support a raised vehicle. Always use proper support stands (axle stands) to prevent the vehicle from falling and causing serious injury or death."
+                },
+                {
+                    question: "What is the main hazard when disconnecting a battery on a vehicle with an airbag system?",
+                    options: [
+                        "Risk of airbag deployment",
+                        "Loss of electronic memory settings",
+                        "Battery acid spillage",
+                        "Damage to the vehicle's ECU"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "There is a risk of accidental airbag deployment when disconnecting a battery. Always follow manufacturer procedures, which typically include waiting for capacitors to discharge and ensuring the ignition is off before disconnecting."
+                },
+                {
+                    question: "When preparing to work on a vehicle's chassis, what should you do first?",
+                    options: [
+                        "Disconnect the battery",
+                        "Ensure the vehicle is on level ground",
+                        "Place wheel chocks around the wheels not being raised",
+                        "Inspect the area for potential hazards"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Before working on a vehicle's chassis, ensure the vehicle is on level, solid ground to prevent movement during work and to ensure the vehicle remains stable when raised."
+                },
+                {
+                    question: "What protective measures should be taken when working with coil springs?",
+                    options: [
+                        "Use appropriate spring compressor tools and eye protection",
+                        "Simply apply brake cleaner to remove debris",
+                        "Work quickly to reduce exposure time",
+                        "Heat the springs to reduce tension"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "Coil springs store substantial energy and can cause serious injury if released uncontrolled. Always use appropriate spring compressor tools and wear eye protection when working with them."
+                },
+                {
+                    question: "What precaution should you take before disconnecting a brake pipe?",
+                    options: [
+                        "Ensure the braking system is not under pressure",
+                        "Connect a diagnostic tool",
+                        "Start the engine to build pressure",
+                        "Apply the brake pedal repeatedly"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "Before disconnecting any brake pipe, ensure the braking system is not under pressure by allowing the vehicle to sit unused for some time after the last brake application."
+                },
+                {
+                    question: "What is the correct method to clean up a brake fluid spill?",
+                    options: [
+                        "Use water to wash it away",
+                        "Apply an absorbent material then dispose of it properly",
+                        "Use compressed air to dry it quickly",
+                        "Leave it to evaporate naturally"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Clean brake fluid spills by applying an absorbent material (like a spill kit or cat litter), then dispose of the contaminated material properly as hazardous waste."
+                },
+                {
+                    question: "What is the purpose of using Vehicle Protective Equipment (VPE)?",
+                    options: [
+                        "To protect the technician from injury",
+                        "To protect the vehicle from damage during service",
+                        "To improve the efficiency of repairs",
+                        "To meet legal requirements for vehicle modifications"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Vehicle Protective Equipment (VPE) such as seat covers, wing covers, and steering wheel covers are used to protect the vehicle from damage, dirt, and grease during service work."
+                },
+                {
+                    question: "What should you do with old suspension components that have been replaced?",
+                    options: [
+                        "Dispose of them in general waste",
+                        "Store them for spare parts",
+                        "Recycle them according to local regulations",
+                        "Return them to the vehicle manufacturer"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Old suspension components should be recycled according to local regulations for metal recycling, helping to reduce environmental impact."
+                }
+            ],
+            general: [
+                {
+                    question: "When replacing chassis components, why is it important to use components that meet original specifications?",
+                    options: [
+                        "Only to maintain warranty requirements",
+                        "To ensure correct performance and safety",
+                        "To save money on parts",
+                        "To reduce installation time"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Using components that meet original specifications ensures correct performance and safety, as well as maintaining warranty requirements in applicable cases."
+                },
+                {
+                    question: "What action should be taken before handing a vehicle back to a customer after chassis work?",
+                    options: [
+                        "Simply inform them of the work done",
+                        "Check only the components that were replaced",
+                        "Road test the vehicle and carry out final checks",
+                        "Have the customer sign a disclaimer"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "After chassis work, the vehicle should be road tested and final checks carried out to ensure all systems are functioning correctly and safely before returning to the customer."
+                },
+                {
+                    question: "Which of these is NOT a required step when preparing to remove chassis components?",
+                    options: [
+                        "Protecting surrounding components",
+                        "Checking for special tools needed",
+                        "Repainting the components",
+                        "Consulting technical information"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Repainting components is not a standard preparation step before removal. Preparation typically includes protecting surrounding components, checking for special tools, and consulting technical information."
+                },
+                {
+                    question: "What information would you need to check before carrying out wheel alignment?",
+                    options: [
+                        "The customer's driving style",
+                        "The manufacturer's specifications",
+                        "The vehicle's service history",
+                        "The vehicle's top speed"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "The manufacturer's specifications must be checked before carrying out wheel alignment to ensure the alignment is set correctly for that specific vehicle."
+                },
+                {
+                    question: "Which system is most likely to require calibration after component replacement?",
+                    options: [
+                        "Exhaust system",
+                        "Cooling system",
+                        "Advanced Driver Assistance Systems (ADAS)",
+                        "Fuel system"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Advanced Driver Assistance Systems (ADAS) often require calibration after chassis component replacement, especially when steering, suspension, or alignment has been affected."
+                },
+                {
+                    question: "What is the importance of logical and systematic processes when working on chassis components?",
+                    options: [
+                        "They help complete the job faster",
+                        "They ensure no steps are missed and aid fault diagnosis",
+                        "They help reduce the cost of the repair",
+                        "They are only important for apprentices"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Logical and systematic processes ensure no steps are missed during complex repairs, aid fault diagnosis, improve safety, and help maintain quality standards."
+                },
+                {
+                    question: "Why is it important to check for fault codes after replacing chassis components?",
+                    options: [
+                        "To identify any new issues that may have arisen during repair",
+                        "To reset the service indicator",
+                        "To update the vehicle's software",
+                        "It's only necessary for warranty repairs"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "Checking for fault codes after chassis work helps identify any new issues that may have arisen during repair or confirm that previously identified faults have been resolved."
+                },
+                {
+                    question: "What documentation should be completed after chassis repairs?",
+                    options: [
+                        "Only the invoice",
+                        "Vehicle technical data updates",
+                        "Job card, service record, and any warranty documentation",
+                        "Only documents required by law"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "After chassis repairs, complete documentation should include the job card detailing work done, updating the service record, and completing any warranty documentation if applicable."
+                },
+                {
+                    question: "What is the purpose of torquing fasteners to the correct specification?",
+                    options: [
+                        "To prevent over-tightening and component damage",
+                        "To reduce the time needed for the job",
+                        "To make the fasteners easier to remove later",
+                        "It's only necessary for safety-critical components"
+                    ],
+                    correctAnswer: 0,
+                    explanation: "Torquing fasteners to the correct specification prevents both under-tightening (which could lead to loosening) and over-tightening (which could cause component damage or fastener failure)."
+                },
+                {
+                    question: "When would it be appropriate to use a locking compound on chassis fasteners?",
+                    options: [
+                        "On all fasteners as a precaution",
+                        "Only on fasteners that are difficult to access",
+                        "When specified by the manufacturer or when fasteners are subject to vibration",
+                        "Only when reusing old fasteners"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "Locking compounds should be used when specified by the manufacturer or on fasteners subject to vibration, to prevent them from loosening during vehicle operation."
+                },
+                {
+                    question: "What is the correct order of operations when replacing suspension components?",
+                    options: [
+                        "Remove, inspect, replace, test",
+                        "Test, remove, replace, test again",
+                        "Plan, protect, remove, replace, test, clean",
+                        "Diagnose, order parts, remove, replace"
+                    ],
+                    correctAnswer: 2,
+                    explanation: "The correct order is to plan the job, protect surrounding components, remove the faulty parts, replace with new components, test the system, and clean up the work area."
+                },
+                {
+                    question: "Why is it important to check a vehicle's wheel alignment after replacing suspension components?",
+                    options: [
+                        "It's a legal requirement",
+                        "To prevent abnormal tyre wear and ensure correct handling",
+                        "Only if the customer requests it",
+                        "Only for high-performance vehicles"
+                    ],
+                    correctAnswer: 1,
+                    explanation: "Checking wheel alignment after suspension work is crucial to prevent abnormal tyre wear, ensure correct vehicle handling, and maintain steering stability and safety."
+                }
+            ]
+        };
+        
+        // Initialize the app
+        function init() {
+            bindEvents();
+            showView('home');
+        }
+        
+        // Bind event listeners
+        function bindEvents() {
+            startBtn.addEventListener('click', () => showView('topic-selection'));
+            restartBtn.addEventListener('click', restartQuiz);
+            submitBtn.addEventListener('click', submitAnswer);
+            nextBtn.addEventListener('click', nextQuestion);
+            prevBtn.addEventListener('click', previousQuestion);
+        }
+        
+        // Show/hide views
+        function showView(view) {
+            homeScreen.classList.add('hidden');
+            topicSelection.classList.add('hidden');
+            questionScreen.classList.add('hidden');
+            resultsScreen.classList.add('hidden');
+            
+            switch(view) {
+                case 'home':
+                    homeScreen.classList.remove('hidden');
+                    break;
+                case 'topic-selection':
+                    topicSelection.classList.remove('hidden');
+                    renderTopics();
+                    break;
+                case 'question':
+                    questionScreen.classList.remove('hidden');
+                    renderQuestion();
+                    break;
+                case 'results':
+                    resultsScreen.classList.remove('hidden');
+                    renderResults();
+                    break;
+            }
+            
+            currentView = view;
+        }
+        
+        // Render topic selection
+        function renderTopics() {
+            topicGrid.innerHTML = '';
+            
+            topics.forEach(topic => {
+                const topicCard = document.createElement('div');
+                topicCard.className = 'topic-card';
+                topicCard.textContent = topic.name;
+                topicCard.addEventListener('click', () => selectTopic(topic.id));
+                topicGrid.appendChild(topicCard);
+            });
+        }
+        
+        // Select a topic
+        function selectTopic(topicId) {
+            currentTopic = topicId;
+            currentQuestionIndex = 0;
+            score = 0;
+            userAnswers = [];
+            quizCompleted = false;
+            
+            if (topicId === 'random') {
+                // Create a random mix of questions from all topics
+                quizQuestions = [];
+                const allTopics = Object.keys(questionsData).filter(topic => topic !== 'random');
+                
+                // Get 2 questions from each topic
+                allTopics.forEach(topic => {
+                    const topicQuestions = [...questionsData[topic]];
+                    shuffleArray(topicQuestions);
+                    quizQuestions.push(...topicQuestions.slice(0, 2));
+                });
+                
+                shuffleArray(quizQuestions);
+            } else {
+                quizQuestions = [...questionsData[topicId]];
+                shuffleArray(quizQuestions);
+            }
+            
+            // Initialize userAnswers array
+            userAnswers = Array(quizQuestions.length).fill(null);
+            
+            showView('question');
+        }
+        
+        // Render current question
+        function renderQuestion() {
+            const question = quizQuestions[currentQuestionIndex];
+            
+            // Update question text
+            questionText.textContent = `Question ${currentQuestionIndex + 1} of ${quizQuestions.length}: ${question.question}`;
+            
+            // Update options
+            optionsContainer.innerHTML = '';
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.textContent = option;
+                optionElement.dataset.index = index;
+                
+                // Check if this option was previously selected
+                if (userAnswers[currentQuestionIndex] === index) {
+                    optionElement.classList.add('selected');
+                    selectedAnswer = index;
+                }
+                
+                // If answer was submitted, show correct/incorrect
+                if (answerSubmitted) {
+                    if (index === question.correctAnswer) {
+                        optionElement.classList.add('correct');
+                    } else if (index === selectedAnswer) {
+                        optionElement.classList.add('incorrect');
+                    }
+                }
+                
+                optionElement.addEventListener('click', () => selectOption(index));
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Update explanation
+            explanation.textContent = question.explanation;
+            explanation.classList.toggle('hidden', !answerSubmitted);
+            
+            // Update buttons
+            prevBtn.classList.toggle('hidden', currentQuestionIndex === 0);
+            nextBtn.classList.toggle('hidden', !answerSubmitted);
+            submitBtn.classList.toggle('hidden', answerSubmitted);
+            
+            // Update progress bar
+            const progress = ((currentQuestionIndex + 1) / quizQuestions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+        
+        // Select an option
+        function selectOption(index) {
+            if (answerSubmitted) return;
+            
+            selectedAnswer = index;
+            
+            // Update UI
+            const options = optionsContainer.querySelectorAll('.option');
+            options.forEach(option => option.classList.remove('selected'));
+            options[index].classList.add('selected');
+        }
+        
+        // Submit answer
+        function submitAnswer() {
+            if (selectedAnswer === null) {
+                alert('Please select an answer');
+                return;
+            }
+            
+            answerSubmitted = true;
+            userAnswers[currentQuestionIndex] = selectedAnswer;
+            
+            const question = quizQuestions[currentQuestionIndex];
+            if (selectedAnswer === question.correctAnswer) {
+                score++;
+            }
+            
+            // Update UI
+            const options = optionsContainer.querySelectorAll('.option');
+            options.forEach((option, index) => {
+                if (index === question.correctAnswer) {
+                    option.classList.add('correct');
+                } else if (index === selectedAnswer && selectedAnswer !== question.correctAnswer) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            explanation.classList.remove('hidden');
+            submitBtn.classList.add('hidden');
+            nextBtn.classList.remove('hidden');
+            
+            // Check if this is the last question
+            if (currentQuestionIndex === quizQuestions.length - 1) {
+                nextBtn.textContent = 'View Results';
+                quizCompleted = true;
+            }
+        }
+        
+        // Go to next question
+        function nextQuestion() {
+            if (quizCompleted) {
+                showView('results');
+                return;
+            }
+            
+            answerSubmitted = false;
+            selectedAnswer = null;
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex >= quizQuestions.length) {
+                showView('results');
+            } else {
+                renderQuestion();
+            }
+        }
+        
+        // Go to previous question
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                answerSubmitted = userAnswers[currentQuestionIndex] !== null;
+                selectedAnswer = userAnswers[currentQuestionIndex];
+                renderQuestion();
+            }
+        }
+        
+        // Render results
+        function renderResults() {
+            scoreElement.textContent = score;
+            totalElement.textContent = quizQuestions.length;
+            
+            const percentage = Math.round((score / quizQuestions.length) * 100);
+            let feedback = '';
+            
+            if (percentage >= 80) {
+                feedback = 'Excellent! You have a strong understanding of the material.';
+            } else if (percentage >= 60) {
+                feedback = 'Good job! Review the questions you missed to improve further.';
+            } else {
+                feedback = 'You need more practice. Focus on reviewing the topic areas where you missed questions.';
+            }
+            
+            resultDetails.innerHTML = `
+                <p>${feedback}</p>
+                <p>You scored ${percentage}% (${score} out of ${quizQuestions.length}).</p>
+            `;
+            
+            // Add topic-specific feedback
+            if (currentTopic !== 'random') {
+                resultDetails.innerHTML += `
+                    <p>Topic: ${topics.find(t => t.id === currentTopic).name}</p>
+                `;
+            }
+        }
+        
+        // Restart quiz
+        function restartQuiz() {
+            showView('topic-selection');
+        }
+        
+        // Utility function to shuffle array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+        
+        // Start the app
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
