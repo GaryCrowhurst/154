@@ -26,9 +26,10 @@
         }
         
         body {
-            background-color: var(--light);
-            color: var(--dark);
+            background-color: var(--bg-color, var(--light));
+            color: var(--text-color, var(--dark));
             line-height: 1.6;
+            transition: background-color 0.3s, color 0.3s;
         }
         
         .container {
@@ -99,10 +100,111 @@
             background-color: var(--danger);
         }
         
+        .btn-danger:hover {
+            background-color: #d32f2f;
+        }
+        
+        .btn-secondary {
+            background-color: var(--gray);
+        }
+        
+        .btn-secondary:hover {
+            background-color: #757575;
+        }
+        
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
         .topic-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .topic-progress {
+            height: 6px;
+            width: 100%;
+            background-color: var(--light-gray);
+            border-radius: 3px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .topic-progress-bar {
+            height: 100%;
+            background-color: var(--secondary);
+            border-radius: 3px;
+        }
+        
+        .progress-details-container {
+            margin-top: 20px;
+        }
+        
+        .progress-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .progress-card h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+        
+        .progress-stat {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .overall-progress {
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .overall-progress h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        
+        .confirmation-dialog {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .dialog-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+        
+        .dialog-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
             margin-top: 20px;
         }
         
@@ -131,39 +233,96 @@
             display: block;
             padding: 15px;
             margin-bottom: 10px;
-            background-color: var(--light);
+            background-color: var(--option-bg, var(--light));
             border: 2px solid var(--light-gray);
             border-radius: 4px;
             cursor: pointer;
             transition: all 0.3s;
+            color: var(--option-text, var(--dark));
         }
         
         .option:hover {
-            background-color: #e3f2fd;
+            background-color: var(--selected-bg, rgba(26, 115, 232, 0.1));
             border-color: var(--primary);
         }
         
         .option.selected {
-            background-color: #e3f2fd;
+            background-color: var(--selected-bg, rgba(26, 115, 232, 0.1));
             border-color: var(--primary);
         }
         
         .option.correct {
-            background-color: rgba(76, 175, 80, 0.2);
+            background-color: var(--correct-bg, rgba(76, 175, 80, 0.2));
             border-color: var(--secondary);
         }
         
         .option.incorrect {
-            background-color: rgba(244, 67, 54, 0.2);
+            background-color: var(--incorrect-bg, rgba(244, 67, 54, 0.2));
             border-color: var(--danger);
         }
         
         .explanation {
             margin-top: 20px;
             padding: 15px;
-            background-color: #e3f2fd;
+            background-color: var(--selected-bg, rgba(26, 115, 232, 0.08));
             border-left: 4px solid var(--primary);
             border-radius: 4px;
+            transition: background-color 0.3s;
+            color: var(--card-text, var(--dark));
+        }
+        
+        /* Dark mode adjustments */
+        .theme-dark .explanation {
+            background-color: rgba(144, 202, 249, 0.1);
+        }
+        
+        .theme-dark .option {
+            background-color: #333;
+        }
+        
+        .theme-dark .option:hover {
+            background-color: #444;
+        }
+        
+        .theme-dark .option.selected {
+            background-color: rgba(144, 202, 249, 0.2);
+        }
+        
+        .theme-dark .option.correct {
+            background-color: rgba(129, 199, 132, 0.2);
+        }
+        
+        .theme-dark .option.incorrect {
+            background-color: rgba(229, 115, 115, 0.2);
+        }
+        
+        /* High contrast adjustments */
+        .theme-contrast .option {
+            border-width: 3px;
+        }
+        
+        .theme-contrast .option.selected {
+            background-color: black;
+            color: #ffff00;
+            border-color: #ffff00;
+        }
+        
+        .theme-contrast .option.correct {
+            background-color: black;
+            color: #66ff66;
+            border-color: #66ff66;
+        }
+        
+        .theme-contrast .option.incorrect {
+            background-color: black;
+            color: #ff6666;
+            border-color: #ff6666;
+        }
+        
+        .theme-contrast .explanation {
+            background-color: #333;
+            border-left: 8px solid #ffff00;
+            color: white;
         }
         
         .progress-container {
@@ -223,22 +382,54 @@
         <header>
             <h1>Light Vehicle Chassis Components</h1>
             <p>Revision Quiz for Level 2 Motor Vehicle</p>
+            <div class="header-controls">
+                <div class="theme-toggle-container">
+                    <span class="theme-label">Theme:</span>
+                    <div class="theme-options">
+                        <button id="light-theme" class="theme-btn theme-btn-active" title="Light Mode">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+                        </button>
+                        <button id="dark-theme" class="theme-btn" title="Dark Mode">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                        </button>
+                        <button id="contrast-theme" class="theme-btn" title="High Contrast Mode">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                        </button>
+                        <button id="colorblind-theme" class="theme-btn" title="Colorblind Friendly Mode">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v8"></path><path d="M12 18v4"></path><path d="M4.93 10.93l1.41 1.41"></path><path d="M17.66 17.66l1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="M6.34 17.66l-1.41 1.41"></path><path d="M19.07 10.93l-1.41 1.41"></path><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"></path></svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="header-buttons">
+                    <button id="progress-btn" class="action-btn progress-btn" aria-label="View Overall Progress">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"></line><line x1="18" y1="20" x2="18" y2="4"></line><line x1="6" y1="20" x2="6" y2="16"></line></svg>
+                        Progress
+                    </button>
+                    <button id="reset-btn" class="action-btn reset-btn" aria-label="Reset All Progress">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"></path><path d="M16 21h5v-5"></path></svg>
+                        Reset
+                    </button>
+                </div>
+            </div>
         </header>
 
-        <!-- Home Screen -->
-        <div id="home-screen" class="home-screen">
+        <!-- Topic Selection Screen (Now the landing page) -->
+        <div id="topic-selection" class="topic-selection">
+            <h2>Select a Topic to Practice</h2>
+            <div class="topic-grid" id="topic-grid">
+                <!-- Topics will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Home Screen (Now hidden and accessible via button) -->
+        <div id="home-screen" class="home-screen hidden">
             <h2>Welcome to your Revision Quiz</h2>
             <p>This quiz will help you prepare for your Level 2 assessment on Removing and Replacing Light Vehicle Chassis Units and Components.</p>
             <p>The questions cover steering systems, suspension systems, braking systems, wheels and tyres, safety procedures, and general knowledge about chassis components.</p>
-            <p>You can choose to focus on a specific topic or test yourself with a random mix of questions.</p>
-            <button id="start-btn" class="btn">Start Quiz</button>
-        </div>
-
-        <!-- Topic Selection Screen -->
-        <div id="topic-selection" class="topic-selection hidden">
-            <h2>Select a Topic</h2>
-            <div class="topic-grid" id="topic-grid">
-                <!-- Topics will be generated by JavaScript -->
+            <p>Your progress is automatically saved to your device after each answer.</p>
+            <div class="button-group">
+                <button id="start-btn" class="btn">Start Quiz</button>
+                <button id="back-to-topics" class="btn btn-secondary">Back to Topics</button>
             </div>
         </div>
 
@@ -270,7 +461,21 @@
             <div id="result-details" class="result-details">
                 <!-- Result details will be generated by JavaScript -->
             </div>
-            <button id="restart-btn" class="btn">Restart Quiz</button>
+            <div class="button-group">
+                <button id="restart-btn" class="btn">Practice Again</button>
+                <button id="back-to-topics-from-results" class="btn btn-secondary">Back to Topics</button>
+            </div>
+        </div>
+        
+        <!-- Overall Progress Screen -->
+        <div id="progress-screen" class="progress-screen hidden">
+            <h2>Your Overall Progress</h2>
+            <div id="progress-details-container" class="progress-details-container">
+                <!-- Progress details will be generated by JavaScript -->
+            </div>
+            <div class="button-group">
+                <button id="back-to-topics-btn" class="btn">Back to Topics</button>
+            </div>
         </div>
     </div>
 
@@ -280,8 +485,11 @@
         const topicSelection = document.getElementById('topic-selection');
         const questionScreen = document.getElementById('question-screen');
         const resultsScreen = document.getElementById('results-screen');
+        const progressScreen = document.getElementById('progress-screen');
         
         const startBtn = document.getElementById('start-btn');
+        const progressBtn = document.getElementById('progress-btn');
+        const resetBtn = document.getElementById('reset-btn');
         const topicGrid = document.getElementById('topic-grid');
         const questionText = document.getElementById('question-text');
         const optionsContainer = document.getElementById('options-container');
@@ -294,6 +502,8 @@
         const totalElement = document.getElementById('total');
         const resultDetails = document.getElementById('result-details');
         const restartBtn = document.getElementById('restart-btn');
+        const backToHomeBtn = document.getElementById('back-to-home-btn');
+        const progressDetailsContainer = document.getElementById('progress-details-container');
         
         // Quiz State
         let currentView = 'home';
@@ -305,6 +515,11 @@
         let quizCompleted = false;
         let quizQuestions = [];
         let userAnswers = [];
+        
+        // User Progress Data
+        let userProgress = {
+            topics: {}
+        };
         
         // Topics
         const topics = [
@@ -1125,10 +1340,228 @@
             ]
         };
         
+        // User theme preferences
+        let userTheme = 'light';
+        
         // Initialize the app
         function init() {
+            loadUserProgress();
+            loadUserTheme();
             bindEvents();
-            showView('home');
+            showView('topic-selection'); // Changed to start with topic selection as landing page
+        }
+        
+        // Load saved user progress from localStorage
+        function loadUserProgress() {
+            const savedProgress = localStorage.getItem('chassisQuizProgress');
+            if (savedProgress) {
+                try {
+                    userProgress = JSON.parse(savedProgress);
+                } catch (e) {
+                    console.error('Error loading saved progress:', e);
+                    userProgress = { topics: {} };
+                }
+            } else {
+                userProgress = { topics: {} };
+            }
+        }
+        
+        // Load user theme preference
+        function loadUserTheme() {
+            const savedTheme = localStorage.getItem('chassisQuizTheme');
+            if (savedTheme) {
+                userTheme = savedTheme;
+                applyTheme(userTheme);
+            }
+        }
+        
+        // Save user theme preference
+        function saveUserTheme(theme) {
+            userTheme = theme;
+            localStorage.setItem('chassisQuizTheme', theme);
+        }
+        
+        // Apply the selected theme
+        function applyTheme(theme) {
+            // First remove any existing theme classes
+            document.body.classList.remove('theme-light', 'theme-dark', 'theme-contrast', 'theme-colorblind');
+            
+            // Add the new theme class
+            document.body.classList.add(`theme-${theme}`);
+            
+            // Update active button state
+            const themeButtons = document.querySelectorAll('.theme-btn');
+            themeButtons.forEach(btn => btn.classList.remove('theme-btn-active'));
+            document.getElementById(`${theme}-theme`).classList.add('theme-btn-active');
+            
+            // Force immediate style refresh for all cards
+            const allCards = document.querySelectorAll('.topic-card, .progress-card');
+            allCards.forEach(card => {
+                // Force style refresh
+                card.style.color = (theme === 'light' || theme === 'colorblind') ? '#212121' : '#ffffff';
+                
+                // Ensure background color is appropriate
+                card.style.backgroundColor = (theme === 'light' || theme === 'colorblind') ? 
+                    '#ffffff' : (theme === 'dark' ? '#2c2c2c' : '#222222');
+                
+                // Apply to all text elements
+                const textElements = card.querySelectorAll('p, div:not(.topic-progress):not(.topic-progress-bar), span');
+                textElements.forEach(el => {
+                    el.style.color = (theme === 'light' || theme === 'colorblind') ? 
+                        '#212121' : '#ffffff';
+                });
+                
+                // Special styling for headers
+                const headers = card.querySelectorAll('.topic-header, h3');
+                headers.forEach(el => {
+                    if (theme === 'contrast') {
+                        el.style.color = '#ffcc00';
+                    } else if (theme === 'dark') {
+                        el.style.color = '#42a5f5';
+                    } else if (theme === 'colorblind') {
+                        el.style.color = '#0072B2';
+                    } else {
+                        el.style.color = '#1976d2';
+                    }
+                });
+            });
+            
+            // Apply theme-specific CSS variables based on theme
+            const root = document.documentElement;
+            
+            switch(theme) {
+                case 'light':
+                    root.style.setProperty('--primary', '#1976d2');
+                    root.style.setProperty('--primary-dark', '#0d47a1');
+                    root.style.setProperty('--secondary', '#2e7d32');
+                    root.style.setProperty('--secondary-dark', '#1b5e20');
+                    root.style.setProperty('--danger', '#d32f2f');
+                    root.style.setProperty('--success', '#2e7d32');
+                    root.style.setProperty('--dark', '#212121');
+                    root.style.setProperty('--light', '#f5f5f5');
+                    root.style.setProperty('--gray', '#757575');
+                    root.style.setProperty('--light-gray', '#e0e0e0');
+                    root.style.setProperty('--bg-color', '#f5f5f5');
+                    root.style.setProperty('--text-color', '#212121');
+                    root.style.setProperty('--card-bg', '#ffffff');
+                    root.style.setProperty('--card-text', '#212121');
+                    root.style.setProperty('--option-bg', '#f5f5f5');
+                    root.style.setProperty('--option-text', '#212121');
+                    root.style.setProperty('--selected-bg', 'rgba(25, 118, 210, 0.1)');
+                    root.style.setProperty('--correct-bg', 'rgba(46, 125, 50, 0.15)');
+                    root.style.setProperty('--incorrect-bg', 'rgba(211, 47, 47, 0.15)');
+                    break;
+                    
+                case 'dark':
+                    root.style.setProperty('--primary', '#42a5f5');
+                    root.style.setProperty('--primary-dark', '#1e88e5');
+                    root.style.setProperty('--secondary', '#66bb6a');
+                    root.style.setProperty('--secondary-dark', '#43a047');
+                    root.style.setProperty('--danger', '#ef5350');
+                    root.style.setProperty('--success', '#66bb6a');
+                    root.style.setProperty('--dark', '#f5f5f5');
+                    root.style.setProperty('--light', '#212121');
+                    root.style.setProperty('--gray', '#9e9e9e');
+                    root.style.setProperty('--light-gray', '#424242');
+                    root.style.setProperty('--bg-color', '#121212');
+                    root.style.setProperty('--text-color', '#f5f5f5');
+                    root.style.setProperty('--card-bg', '#2c2c2c'); // Darker background for cards
+                    root.style.setProperty('--card-text', '#ffffff'); // White text on dark background
+                    root.style.setProperty('--option-bg', '#333333');
+                    root.style.setProperty('--option-text', '#f5f5f5');
+                    root.style.setProperty('--selected-bg', 'rgba(66, 165, 245, 0.25)');
+                    root.style.setProperty('--correct-bg', 'rgba(102, 187, 106, 0.25)');
+                    root.style.setProperty('--incorrect-bg', 'rgba(239, 83, 80, 0.25)');
+                    
+                    // Add a class to the body for theme-specific styles
+                    document.body.classList.add('theme-dark');
+                    break;
+                    
+                case 'contrast':
+                    root.style.setProperty('--primary', '#ffcc00');
+                    root.style.setProperty('--primary-dark', '#e6b800');
+                    root.style.setProperty('--secondary', '#00ff00');
+                    root.style.setProperty('--secondary-dark', '#00cc00');
+                    root.style.setProperty('--danger', '#ff0000');
+                    root.style.setProperty('--success', '#00ff00');
+                    root.style.setProperty('--dark', '#ffffff');
+                    root.style.setProperty('--light', '#000000');
+                    root.style.setProperty('--gray', '#ffffff');
+                    root.style.setProperty('--light-gray', '#333333');
+                    root.style.setProperty('--bg-color', '#000000');
+                    root.style.setProperty('--text-color', '#ffffff');
+                    root.style.setProperty('--card-bg', '#222222'); // Dark gray for cards
+                    root.style.setProperty('--card-text', '#ffffff'); // White text
+                    root.style.setProperty('--option-bg', '#000000');
+                    root.style.setProperty('--option-text', '#ffffff');
+                    root.style.setProperty('--selected-bg', '#000000');
+                    root.style.setProperty('--correct-bg', '#005500');
+                    root.style.setProperty('--incorrect-bg', '#550000');
+                    
+                    // Add a class to the body for theme-specific styles
+                    document.body.classList.add('theme-contrast');
+                    break;
+                    
+                case 'colorblind':
+                    root.style.setProperty('--primary', '#0072B2'); // Blue (distinguishable for protanopia, deuteranopia)
+                    root.style.setProperty('--primary-dark', '#005b8f');
+                    root.style.setProperty('--secondary', '#E69F00'); // Orange (better for most types of colorblindness)
+                    root.style.setProperty('--secondary-dark', '#b37e00');
+                    root.style.setProperty('--danger', '#CC79A7'); // Pink/Purple (visible for most colorblindness)
+                    root.style.setProperty('--success', '#009E73'); // Teal (distinguishable for most colorblindness)
+                    root.style.setProperty('--dark', '#212121');
+                    root.style.setProperty('--light', '#f5f5f5');
+                    root.style.setProperty('--gray', '#707070');
+                    root.style.setProperty('--light-gray', '#e0e0e0');
+                    root.style.setProperty('--bg-color', '#f5f5f5');
+                    root.style.setProperty('--text-color', '#212121');
+                    root.style.setProperty('--card-bg', '#ffffff');
+                    root.style.setProperty('--card-text', '#212121');
+                    root.style.setProperty('--option-bg', '#f5f5f5');
+                    root.style.setProperty('--option-text', '#212121');
+                    root.style.setProperty('--selected-bg', 'rgba(0, 114, 178, 0.15)');
+                    root.style.setProperty('--correct-bg', 'rgba(0, 158, 115, 0.15)');
+                    root.style.setProperty('--incorrect-bg', 'rgba(204, 121, 167, 0.15)');
+                    
+                    // Add a class to the body for theme-specific styles
+                    document.body.classList.add('theme-colorblind');
+                    break;
+            }
+        }
+        
+        // Save user progress to localStorage
+        function saveUserProgress() {
+            localStorage.setItem('chassisQuizProgress', JSON.stringify(userProgress));
+        }
+        
+        // Reset all user progress
+        function resetUserProgress() {
+            // Show confirmation dialog
+            const confirmDialog = document.createElement('div');
+            confirmDialog.className = 'confirmation-dialog';
+            confirmDialog.innerHTML = `
+                <div class="dialog-content">
+                    <h3>Reset All Progress?</h3>
+                    <p>This will delete all your saved progress and scores. This action cannot be undone.</p>
+                    <div class="dialog-buttons">
+                        <button id="confirm-reset" class="btn btn-danger">Reset</button>
+                        <button id="cancel-reset" class="btn">Cancel</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(confirmDialog);
+            
+            // Add event listeners to dialog buttons
+            document.getElementById('confirm-reset').addEventListener('click', () => {
+                userProgress = { topics: {} };
+                saveUserProgress();
+                document.body.removeChild(confirmDialog);
+                showView('home');
+            });
+            
+            document.getElementById('cancel-reset').addEventListener('click', () => {
+                document.body.removeChild(confirmDialog);
+            });
         }
         
         // Bind event listeners
@@ -1138,6 +1571,35 @@
             submitBtn.addEventListener('click', submitAnswer);
             nextBtn.addEventListener('click', nextQuestion);
             prevBtn.addEventListener('click', previousQuestion);
+            progressBtn.addEventListener('click', () => showView('progress'));
+            resetBtn.addEventListener('click', resetUserProgress);
+            document.getElementById('back-to-topics-btn').addEventListener('click', () => showView('topic-selection'));
+            document.getElementById('back-to-topics-from-results').addEventListener('click', () => showView('topic-selection'));
+            
+            // Theme toggle buttons
+            document.getElementById('light-theme').addEventListener('click', () => {
+                applyTheme('light');
+                saveUserTheme('light');
+            });
+            
+            document.getElementById('dark-theme').addEventListener('click', () => {
+                applyTheme('dark');
+                saveUserTheme('dark');
+            });
+            
+            document.getElementById('contrast-theme').addEventListener('click', () => {
+                applyTheme('contrast');
+                saveUserTheme('contrast');
+            });
+            
+            document.getElementById('colorblind-theme').addEventListener('click', () => {
+                applyTheme('colorblind');
+                saveUserTheme('colorblind');
+            });
+            
+            if (document.getElementById('back-to-topics')) {
+                document.getElementById('back-to-topics').addEventListener('click', () => showView('topic-selection'));
+            }
         }
         
         // Show/hide views
@@ -1146,6 +1608,7 @@
             topicSelection.classList.add('hidden');
             questionScreen.classList.add('hidden');
             resultsScreen.classList.add('hidden');
+            progressScreen.classList.add('hidden');
             
             switch(view) {
                 case 'home':
@@ -1163,6 +1626,10 @@
                     resultsScreen.classList.remove('hidden');
                     renderResults();
                     break;
+                case 'progress':
+                    progressScreen.classList.remove('hidden');
+                    renderOverallProgress();
+                    break;
             }
             
             currentView = view;
@@ -1175,7 +1642,92 @@
             topics.forEach(topic => {
                 const topicCard = document.createElement('div');
                 topicCard.className = 'topic-card';
-                topicCard.textContent = topic.name;
+                
+                // Check if there is saved progress for this topic
+                const topicProgress = userProgress.topics[topic.id];
+                let completedQuestions = 0;
+                let totalQuestions = 0;
+                let progressPercentage = 0;
+                let topicScore = 0;
+                let statusClass = 'status-not-started';
+                let statusText = 'Not Started';
+                
+                if (topicProgress && topicProgress.answers) {
+                    totalQuestions = topicProgress.answers.length;
+                    
+                    topicProgress.answers.forEach(answer => {
+                        if (answer !== null) completedQuestions++;
+                    });
+                    
+                    topicScore = topicProgress.score || 0;
+                    progressPercentage = (completedQuestions / totalQuestions) * 100;
+                    
+                    if (completedQuestions === 0) {
+                        statusClass = 'status-not-started';
+                        statusText = 'Not Started';
+                    } else if (completedQuestions < totalQuestions) {
+                        statusClass = 'status-in-progress';
+                        statusText = 'In Progress';
+                    } else {
+                        statusClass = 'status-completed';
+                        statusText = 'Completed';
+                    }
+                } else if (topic.id !== 'random') {
+                    // If no progress and not the random topic, set default question count
+                    totalQuestions = questionsData[topic.id].length;
+                }
+                
+                // Status badge
+                const statusBadge = document.createElement('div');
+                statusBadge.className = `topic-status ${statusClass}`;
+                statusBadge.textContent = statusText;
+                topicCard.appendChild(statusBadge);
+                
+                // Topic header - ensure the text color is appropriate for the theme
+                const topicHeader = document.createElement('div');
+                topicHeader.className = 'topic-header';
+                topicHeader.textContent = topic.name;
+                topicCard.appendChild(topicHeader);
+                
+                // Count of questions - ensure the text color is appropriate for the theme
+                if (topic.id !== 'random') {
+                    const questionsCount = document.createElement('div');
+                    questionsCount.className = 'topic-progress-info';
+                    questionsCount.innerHTML = `
+                        <span>Questions:</span>
+                        <span>${completedQuestions}/${totalQuestions}</span>
+                    `;
+                    topicCard.appendChild(questionsCount);
+                    
+                    // Score (if attempted) - ensure the text color is appropriate for the theme
+                    if (completedQuestions > 0) {
+                        const scorePercentage = Math.round((topicScore / totalQuestions) * 100);
+                        const scoreElement = document.createElement('div');
+                        scoreElement.className = 'topic-score';
+                        scoreElement.textContent = `Score: ${scorePercentage}%`;
+                        topicCard.appendChild(scoreElement);
+                    }
+                    
+                    // Progress bar
+                    const progressBarContainer = document.createElement('div');
+                    progressBarContainer.className = 'topic-progress';
+                    
+                    const progressBar = document.createElement('div');
+                    progressBar.className = 'topic-progress-bar';
+                    progressBar.style.width = `${progressPercentage}%`;
+                    
+                    progressBarContainer.appendChild(progressBar);
+                    topicCard.appendChild(progressBarContainer);
+                } else {
+                    // For random topic, show a special description - ensure text color is appropriate for the theme
+                    const randomDescription = document.createElement('p');
+                    randomDescription.style.fontSize = '14px';
+                    randomDescription.style.marginTop = '10px';
+                    randomDescription.className = 'topic-description';
+                    randomDescription.textContent = 'Mix of questions from all topics';
+                    topicCard.appendChild(randomDescription);
+                }
+                
                 topicCard.addEventListener('click', () => selectTopic(topic.id));
                 topicGrid.appendChild(topicCard);
             });
@@ -1207,8 +1759,29 @@
                 shuffleArray(quizQuestions);
             }
             
-            // Initialize userAnswers array
-            userAnswers = Array(quizQuestions.length).fill(null);
+            // Check if there's saved progress
+            if (userProgress.topics[topicId] && topicId !== 'random') {
+                // If we have saved answers for this exact set of questions, use them
+                if (userProgress.topics[topicId].answers && 
+                    userProgress.topics[topicId].answers.length === quizQuestions.length) {
+                    userAnswers = [...userProgress.topics[topicId].answers];
+                    score = userProgress.topics[topicId].score || 0;
+                    
+                    // Find the first unanswered question
+                    for (let i = 0; i < userAnswers.length; i++) {
+                        if (userAnswers[i] === null) {
+                            currentQuestionIndex = i;
+                            break;
+                        }
+                    }
+                } else {
+                    // If the questions have changed, start fresh
+                    userAnswers = Array(quizQuestions.length).fill(null);
+                }
+            } else {
+                // Initialize userAnswers array
+                userAnswers = Array(quizQuestions.length).fill(null);
+            }
             
             showView('question');
         }
@@ -1271,6 +1844,12 @@
             const options = optionsContainer.querySelectorAll('.option');
             options.forEach(option => option.classList.remove('selected'));
             options[index].classList.add('selected');
+            
+            // Just save the selected option, not submitting yet
+            userAnswers[currentQuestionIndex] = selectedAnswer;
+            if (currentTopic !== 'random') {
+                saveQuizProgress();
+            }
         }
         
         // Submit answer
@@ -1307,6 +1886,25 @@
                 nextBtn.textContent = 'View Results';
                 quizCompleted = true;
             }
+            
+            // Save progress
+            saveQuizProgress();
+        }
+        
+        // Save current quiz progress
+        function saveQuizProgress() {
+            if (currentTopic === 'random') return; // Don't save progress for random quizzes
+            
+            // Update or create topic progress
+            userProgress.topics[currentTopic] = {
+                answers: [...userAnswers],
+                score: score,
+                totalQuestions: quizQuestions.length,
+                lastAttempt: new Date().toISOString()
+            };
+            
+            // Save to localStorage
+            saveUserProgress();
         }
         
         // Go to next question
@@ -1369,6 +1967,182 @@
         // Restart quiz
         function restartQuiz() {
             showView('topic-selection');
+        }
+        
+        // Render overall progress
+        function renderOverallProgress() {
+            progressDetailsContainer.innerHTML = '';
+            
+            // Create overall progress summary
+            let totalQuestions = 0;
+            let totalAnswered = 0;
+            let totalCorrect = 0;
+            
+            // Calculate overall statistics
+            Object.keys(userProgress.topics).forEach(topicId => {
+                const topic = userProgress.topics[topicId];
+                if (topic.answers) {
+                    totalQuestions += topic.answers.length;
+                    
+                    topic.answers.forEach(answer => {
+                        if (answer !== null) totalAnswered++;
+                    });
+                    
+                    totalCorrect += topic.score || 0;
+                }
+            });
+            
+            // Create overall progress card
+            const overallCard = document.createElement('div');
+            overallCard.className = 'overall-progress';
+            
+            if (totalQuestions > 0) {
+                const completionPercentage = Math.round((totalAnswered / totalQuestions) * 100);
+                const correctPercentage = Math.round((totalCorrect / totalQuestions) * 100);
+                
+                overallCard.innerHTML = `
+                    <h3>Overall Progress</h3>
+                    <div class="progress-stat">
+                        <span>Completion:</span>
+                        <span>${completionPercentage}% (${totalAnswered}/${totalQuestions})</span>
+                    </div>
+                    <div class="progress-stat">
+                        <span>Correct Answers:</span>
+                        <span>${correctPercentage}% (${totalCorrect}/${totalQuestions})</span>
+                    </div>
+                    <div class="topic-progress" style="margin-top: 15px; height: 10px;">
+                        <div class="topic-progress-bar" style="width: ${completionPercentage}%; background-color: var(--primary);"></div>
+                    </div>
+                `;
+            } else {
+                overallCard.innerHTML = `
+                    <h3>Overall Progress</h3>
+                    <p>You haven't attempted any quizzes yet.</p>
+                `;
+            }
+            
+            progressDetailsContainer.appendChild(overallCard);
+            
+            // Create progress cards for each topic
+            const topicsContainer = document.createElement('div');
+            topicsContainer.className = 'topics-progress-grid';
+            topicsContainer.style.display = 'grid';
+            topicsContainer.style.gridTemplateColumns = 'repeat(auto-fill, minmax(230px, 1fr))';
+            topicsContainer.style.gap = '15px';
+            topicsContainer.style.marginTop = '20px';
+            
+            // Sort topics by completion percentage
+            const topicSummaries = [];
+            
+            topics.forEach(topic => {
+                if (topic.id === 'random') return; // Skip random topic
+                
+                const topicProgress = userProgress.topics[topic.id];
+                if (!topicProgress || !topicProgress.answers || topicProgress.answers.length === 0) {
+                    // Add not-started topics with 0%
+                    topicSummaries.push({
+                        id: topic.id,
+                        name: topic.name,
+                        completion: 0,
+                        correct: 0,
+                        answeredQuestions: 0,
+                        totalQuestions: questionsData[topic.id].length,
+                        lastAttempt: null
+                    });
+                    return;
+                }
+                
+                // Calculate topic statistics
+                let answeredQuestions = 0;
+                topicProgress.answers.forEach(answer => {
+                    if (answer !== null) answeredQuestions++;
+                });
+                
+                const completion = Math.round((answeredQuestions / topicProgress.answers.length) * 100);
+                const correct = Math.round((topicProgress.score / topicProgress.answers.length) * 100);
+                
+                topicSummaries.push({
+                    id: topic.id,
+                    name: topic.name,
+                    completion,
+                    correct,
+                    answeredQuestions,
+                    totalQuestions: topicProgress.answers.length,
+                    lastAttempt: topicProgress.lastAttempt
+                });
+            });
+            
+            // Sort by completion (highest first)
+            topicSummaries.sort((a, b) => b.completion - a.completion);
+            
+            topicSummaries.forEach(summary => {
+                const topicCard = document.createElement('div');
+                topicCard.className = 'progress-card';
+                
+                // Set card border color based on completion
+                if (summary.completion === 100) {
+                    topicCard.style.borderLeft = '4px solid var(--secondary)';
+                } else if (summary.completion > 0) {
+                    topicCard.style.borderLeft = '4px solid var(--primary)';
+                } else {
+                    topicCard.style.borderLeft = '4px solid var(--gray)';
+                }
+                
+                // Format last attempt date
+                const lastAttempt = summary.lastAttempt ? 
+                    new Date(summary.lastAttempt).toLocaleDateString() : 'Never';
+                
+                // Add status badge
+                let statusClass = 'status-not-started';
+                let statusText = 'Not Started';
+                
+                if (summary.completion === 0) {
+                    statusClass = 'status-not-started';
+                    statusText = 'Not Started';
+                } else if (summary.completion < 100) {
+                    statusClass = 'status-in-progress';
+                    statusText = 'In Progress';
+                } else {
+                    statusClass = 'status-completed';
+                    statusText = 'Completed';
+                }
+                
+                topicCard.innerHTML = `
+                    <div class="topic-status ${statusClass}" style="position: absolute; top: 0; right: 0;">
+                        ${statusText}
+                    </div>
+                    <h3>${summary.name}</h3>
+                    <div class="progress-stat">
+                        <span>Completion:</span>
+                        <span>${summary.completion}% (${summary.answeredQuestions}/${summary.totalQuestions})</span>
+                    </div>
+                    ${summary.completion > 0 ? `
+                    <div class="progress-stat">
+                        <span>Correct:</span>
+                        <span>${summary.correct}%</span>
+                    </div>
+                    <div class="progress-stat">
+                        <span>Last Attempt:</span>
+                        <span>${lastAttempt}</span>
+                    </div>
+                    ` : ''}
+                    <div class="topic-progress" style="margin-top: 10px;">
+                        <div class="topic-progress-bar" style="width: ${summary.completion}%"></div>
+                    </div>
+                `;
+                
+                topicCard.style.position = 'relative';
+                topicCard.style.cursor = 'pointer';
+                
+                // Make the card clickable to go to that topic
+                topicCard.addEventListener('click', () => {
+                    selectTopic(summary.id);
+                });
+                
+                topicsContainer.appendChild(topicCard);
+            });
+            
+            progressDetailsContainer.appendChild(topicsContainer);
         }
         
         // Utility function to shuffle array
